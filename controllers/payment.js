@@ -41,7 +41,7 @@ export const checkoutSession = async (req, res) => {
     const userDetails = await user.findOne({ email: req.body.email });
 
     // checkout session
-    const redirect_url = findCommonElement(userDetails, req.body.planName)
+    const redirect_url = findCommonElement(userDetails.authority, memberships)
       ? `/plans`
       : `/app/welcome-page`;
     const session = await stripe.checkout.sessions.create({
