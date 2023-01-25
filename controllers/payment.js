@@ -52,7 +52,8 @@ export const checkoutSession = async (req, res) => {
 
     const updatedUser = await user.findOneAndUpdate(
       { email: userDetails.email },
-      { $set: { authority: updatedAuthority } }
+      { $set: { authority: updatedAuthority } },
+      { new: true }
     );
 
     console.log(updatedUser);
