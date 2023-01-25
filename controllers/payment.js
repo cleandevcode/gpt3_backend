@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import user from "../models/user.js";
 import { stripe } from "../utils/stripe.js";
+import { memberships } from "../utils/constants.js";
 
 // get plans form stripe
 export const getPlans = async (req, res) => {
@@ -39,9 +40,19 @@ export const checkoutSession = async (req, res) => {
     });
     // console.log(session);
     //  MVP
+
+    // update authority
+    const updatedAuthority = [];
+    userDetails.authority.map((item) => {
+      if (!memberships.includes(item)) {
+        updatedAuthority.push(item);
+      }
+    });
+    updatedAuthority.push(req.body.planName);
+
     const updatedUser = await user.findOneAndUpdate(
       { email: userDetails.email },
-      { $push: { authority: "premium" } }
+      { $set: { authority: updatedAuthority } }
     );
 
     console.log(updatedUser);
