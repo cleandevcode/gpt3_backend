@@ -55,7 +55,7 @@ export const checkoutSession = async (req, res) => {
       { $set: { authority: updatedAuthority } }
     );
 
-    console.log(updatedUser);
+    console.log({ updatedUser });
 
     res.json({ session, updatedUser });
   } catch (error) {
